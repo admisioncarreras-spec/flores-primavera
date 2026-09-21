@@ -22,10 +22,7 @@
   body{
     margin:0;
     min-height:100%;
-    background:
-      radial-gradient(120% 70% at 50% 108%, rgba(255,201,60,.22) 0%, rgba(201,100,95,.16) 26%, rgba(122,63,90,0) 62%),
-      linear-gradient(180deg, var(--noche) 0%, var(--cielo) 52%, var(--horizonte) 88%, var(--brasa) 100%);
-    background-attachment:fixed;
+    background:var(--noche);
     color:var(--crema);
     font-family:"Karla","Helvetica Neue",Arial,sans-serif;
     font-size:16px;
@@ -33,13 +30,22 @@
     -webkit-font-smoothing:antialiased;
   }
 
+  /* capa de fondo fija — estable en iOS y Android */
+  #fondo{
+    position:fixed; inset:0; z-index:0;
+    pointer-events:none;
+    background:
+      radial-gradient(130% 62% at 50% 104%, rgba(255,201,60,.24) 0%, rgba(201,100,95,.18) 24%, rgba(122,63,90,0) 60%),
+      linear-gradient(180deg, var(--noche) 0%, var(--cielo) 50%, var(--horizonte) 84%, var(--brasa) 100%);
+  }
+
   #polen{
     position:fixed; inset:0; width:100%; height:100%;
-    pointer-events:none; z-index:0;
+    pointer-events:none; z-index:1;
   }
 
   .carta{
-    position:relative; z-index:1;
+    position:relative; z-index:2;
     max-width:600px;
     margin:0 auto;
     padding-inline:22px;
@@ -211,6 +217,7 @@
   }
 </style>
 
+<div id="fondo" aria-hidden="true"></div>
 <canvas id="polen" aria-hidden="true"></canvas>
 
 <main class="carta" id="carta">
@@ -280,7 +287,7 @@
 
   <div class="cierre">
     <p class="deseo revela" style="--r:4.45s">Feliz día de las flores amarillas, boludita 💛</p>
-    <p class="firma revela" style="--r:4.7s"></p>
+    <p class="firma revela" style="--r:4.7s">Roberto</p>
   </div>
 
   <p class="devuelta revela" style="--r:4.95s">
