@@ -1,0 +1,361 @@
+<title>Flores amarillas para Gabita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Karla:wght@300;400;500&display=swap">
+<style>
+  :root{
+    --noche:#1E1836;
+    --cielo:#3C2A58;
+    --horizonte:#7A3F5A;
+    --brasa:#C9645F;
+    --amarillo:#FFC93C;
+    --amarillo-claro:#FFE9A3;
+    --verde:#5C8560;
+    --verde-hondo:#3F6247;
+    --crema:#FBF3E2;
+    --crema-tenue:#CDBFB4;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    min-height:100%;
+    background:
+      radial-gradient(120% 70% at 50% 108%, rgba(255,201,60,.22) 0%, rgba(201,100,95,.16) 26%, rgba(122,63,90,0) 62%),
+      linear-gradient(180deg, var(--noche) 0%, var(--cielo) 52%, var(--horizonte) 88%, var(--brasa) 100%);
+    background-attachment:fixed;
+    color:var(--crema);
+    font-family:"Karla","Helvetica Neue",Arial,sans-serif;
+    font-size:16px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  #polen{
+    position:fixed; inset:0; width:100%; height:100%;
+    pointer-events:none; z-index:0;
+  }
+
+  .carta{
+    position:relative; z-index:1;
+    max-width:600px;
+    margin:0 auto;
+    padding-inline:22px;
+    padding-block:clamp(18px,5vw,44px) clamp(40px,10vw,76px);
+    display:flex;
+    flex-direction:column;
+    gap:clamp(20px,4vw,30px);
+  }
+
+  /* ---------- ramo ---------- */
+  .escena{
+    width:100%;
+    max-width:430px;
+    margin-inline:auto;
+    aspect-ratio:400/255;
+  }
+  .escena svg{display:block;width:100%;height:100%;overflow:visible}
+
+  .tallo{
+    fill:none;
+    stroke:var(--verde);
+    stroke-width:4.5;
+    stroke-linecap:round;
+  }
+  .hoja{fill:var(--verde-hondo)}
+  .petalo{fill:var(--amarillo)}
+  .petalo-alto{fill:var(--amarillo-claro)}
+  .corazon{fill:#8C5A1E}
+  .flor{transform-box:fill-box;transform-origin:center}
+
+  /* ---------- texto ---------- */
+  .fecha{
+    font-size:11.5px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--amarillo);
+    margin:0;
+    text-align:center;
+    font-weight:500;
+  }
+  .fecha span{color:var(--crema-tenue);display:inline-block}
+
+  h1{
+    font-family:"Fraunces",Georgia,"Times New Roman",serif;
+    font-optical-sizing:auto;
+    font-variation-settings:"SOFT" 40,"WONK" 1;
+    font-weight:400;
+    font-style:italic;
+    font-size:clamp(30px,8.4vw,44px);
+    line-height:1.14;
+    letter-spacing:-.015em;
+    text-wrap:balance;
+    text-align:center;
+    margin:0;
+    color:var(--crema);
+  }
+
+  .mensaje{
+    display:flex;
+    flex-direction:column;
+    gap:1.15em;
+    max-width:44ch;
+    margin-inline:auto;
+    font-size:clamp(16px,4.1vw,17.5px);
+    font-weight:300;
+    color:#F0E6D6;
+  }
+  .mensaje p{margin:0}
+  .mensaje em{
+    font-family:"Fraunces",Georgia,serif;
+    font-style:italic;
+    font-weight:400;
+    color:var(--amarillo-claro);
+    font-size:1.04em;
+  }
+
+  .cierre{
+    margin-inline:auto;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    gap:.55em;
+  }
+  .cierre .deseo{
+    font-family:"Fraunces",Georgia,serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(20px,5.4vw,25px);
+    line-height:1.3;
+    color:var(--amarillo);
+    margin:0;
+  }
+  .firma{
+    font-size:13px;
+    letter-spacing:.11em;
+    text-transform:uppercase;
+    color:var(--crema-tenue);
+    margin:0;
+  }
+
+  .regla{
+    width:44px;height:1px;border:0;
+    background:linear-gradient(90deg,transparent,var(--amarillo),transparent);
+    margin:4px auto 0;
+  }
+
+  .devuelta{
+    text-align:center;
+    margin:0;
+  }
+  .devuelta button{
+    font-family:inherit;
+    font-size:12px;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    color:var(--crema-tenue);
+    background:none;
+    border:1px solid rgba(251,243,226,.26);
+    border-radius:999px;
+    padding:9px 18px;
+    cursor:pointer;
+    transition:color .25s ease,border-color .25s ease;
+  }
+  .devuelta button:hover{color:var(--amarillo);border-color:rgba(255,201,60,.6)}
+  .devuelta button:focus-visible{outline:2px solid var(--amarillo);outline-offset:3px}
+
+  /* ---------- florecer ---------- */
+  .animar .tallo{
+    stroke-dasharray:var(--largo);
+    stroke-dashoffset:var(--largo);
+    animation:crecer .95s cubic-bezier(.33,.72,.32,1) forwards;
+    animation-delay:var(--d);
+  }
+  .animar .hoja{
+    opacity:0;
+    animation:aparecer .6s ease forwards;
+    animation-delay:calc(var(--d) + .55s);
+  }
+  .animar .flor{
+    opacity:0;
+    transform:scale(.1) rotate(-32deg);
+    animation:florecer 1.05s cubic-bezier(.24,1.32,.46,1) forwards;
+    animation-delay:calc(var(--d) + .78s);
+  }
+  .animar .revela{
+    opacity:0;
+    transform:translateY(12px);
+    animation:subir .95s cubic-bezier(.22,.78,.3,1) forwards;
+    animation-delay:var(--r);
+  }
+
+  @keyframes crecer{to{stroke-dashoffset:0}}
+  @keyframes aparecer{to{opacity:1}}
+  @keyframes florecer{
+    0%{opacity:0;transform:scale(.1) rotate(-32deg)}
+    40%{opacity:1}
+    100%{opacity:1;transform:scale(1) rotate(0deg)}
+  }
+  @keyframes subir{to{opacity:1;transform:translateY(0)}}
+
+  @media (prefers-reduced-motion: reduce){
+    .animar .tallo,.animar .hoja,.animar .flor,.animar .revela{
+      animation:none!important;
+      opacity:1!important;
+      transform:none!important;
+      stroke-dashoffset:0!important;
+    }
+    #polen{display:none}
+  }
+</style>
+
+<canvas id="polen" aria-hidden="true"></canvas>
+
+<main class="carta" id="carta">
+
+  <div class="escena" aria-label="Un ramo de flores amarillas floreciendo">
+    <svg viewBox="0 0 400 255" role="img">
+      <defs>
+        <g id="flor-amarilla">
+          <g class="petalos">
+            <ellipse class="petalo" cx="0" cy="-20" rx="8.5" ry="20"/>
+            <ellipse class="petalo" cx="0" cy="-20" rx="8.5" ry="20" transform="rotate(45)"/>
+            <ellipse class="petalo" cx="0" cy="-20" rx="8.5" ry="20" transform="rotate(90)"/>
+            <ellipse class="petalo" cx="0" cy="-20" rx="8.5" ry="20" transform="rotate(135)"/>
+            <ellipse class="petalo" cx="0" cy="-20" rx="8.5" ry="20" transform="rotate(180)"/>
+            <ellipse class="petalo" cx="0" cy="-20" rx="8.5" ry="20" transform="rotate(225)"/>
+            <ellipse class="petalo" cx="0" cy="-20" rx="8.5" ry="20" transform="rotate(270)"/>
+            <ellipse class="petalo" cx="0" cy="-20" rx="8.5" ry="20" transform="rotate(315)"/>
+            <ellipse class="petalo-alto" cx="0" cy="-17" rx="5" ry="14" transform="rotate(22)"/>
+            <ellipse class="petalo-alto" cx="0" cy="-17" rx="5" ry="14" transform="rotate(112)"/>
+            <ellipse class="petalo-alto" cx="0" cy="-17" rx="5" ry="14" transform="rotate(202)"/>
+            <ellipse class="petalo-alto" cx="0" cy="-17" rx="5" ry="14" transform="rotate(292)"/>
+          </g>
+          <circle class="corazon" cx="0" cy="0" r="7.5"/>
+        </g>
+      </defs>
+
+      <!-- tallos -->
+      <path class="tallo" style="--largo:205;--d:.15s" d="M200,255 C200,198 198,128 200,68"/>
+      <path class="tallo" style="--largo:198;--d:.26s" d="M200,255 C190,200 160,140 142,92"/>
+      <path class="tallo" style="--largo:196;--d:.37s" d="M200,255 C212,200 244,140 260,88"/>
+      <path class="tallo" style="--largo:178;--d:.48s" d="M200,255 C180,214 132,180 102,140"/>
+      <path class="tallo" style="--largo:178;--d:.59s" d="M200,255 C222,214 270,178 300,136"/>
+      <path class="tallo" style="--largo:142;--d:.70s" d="M200,255 C196,216 178,172 170,138"/>
+      <path class="tallo" style="--largo:140;--d:.81s" d="M200,255 C208,216 226,174 234,142"/>
+
+      <!-- hojas -->
+      <ellipse class="hoja" style="--d:.15s" cx="184" cy="192" rx="17" ry="7" transform="rotate(-24 184 192)"/>
+      <ellipse class="hoja" style="--d:.37s" cx="222" cy="176" rx="16" ry="6.5" transform="rotate(26 222 176)"/>
+      <ellipse class="hoja" style="--d:.26s" cx="172" cy="158" rx="14" ry="6" transform="rotate(-34 172 158)"/>
+      <ellipse class="hoja" style="--d:.59s" cx="242" cy="208" rx="15" ry="6" transform="rotate(34 242 208)"/>
+      <ellipse class="hoja" style="--d:.48s" cx="158" cy="216" rx="14" ry="6" transform="rotate(-30 158 216)"/>
+
+      <!-- flores -->
+      <g transform="translate(200,64) scale(1)"><g class="flor" style="--d:.15s"><use href="#flor-amarilla"/></g></g>
+      <g transform="translate(142,88) scale(.86)"><g class="flor" style="--d:.26s"><use href="#flor-amarilla"/></g></g>
+      <g transform="translate(260,84) scale(.9)"><g class="flor" style="--d:.37s"><use href="#flor-amarilla"/></g></g>
+      <g transform="translate(101,136) scale(.74)"><g class="flor" style="--d:.48s"><use href="#flor-amarilla"/></g></g>
+      <g transform="translate(301,132) scale(.77)"><g class="flor" style="--d:.59s"><use href="#flor-amarilla"/></g></g>
+      <g transform="translate(170,134) scale(.65)"><g class="flor" style="--d:.70s"><use href="#flor-amarilla"/></g></g>
+      <g transform="translate(234,138) scale(.68)"><g class="flor" style="--d:.81s"><use href="#flor-amarilla"/></g></g>
+    </svg>
+  </div>
+
+  <p class="fecha revela" style="--r:1.75s">21 de septiembre <span>·</span> Día de las flores amarillas</p>
+
+  <h1 class="revela" style="--r:1.95s">Estas son para ti,<br>Gabita</h1>
+
+  <hr class="regla revela" style="--r:2.15s">
+
+  <div class="mensaje">
+    <p class="revela" style="--r:2.3s">Hoy tocaban flores amarillas y cuando pensé a quién quería mandarle las mías, cero suspenso: vos, boludita.</p>
+    <p class="revela" style="--r:2.7s">Hay personas que terminan teniendo algo distinto, un lugar propio que no se parece al de nadie más. Y uno ni siquiera sabe muy bien cuándo pasó; simplemente llega un día como hoy, piensa en alguien y la respuesta aparece sola. A mí me pasó contigo.</p>
+    <p class="revela" style="--r:3.15s">Por eso hoy quería que te llegara algo bonito. Porque eres especial para mí de una forma bien tuya, de esas que cuesta explicar sin ponerse medio pelotudo jajaja. Hay cosas, recuerdos, gestos y pequeñas tonteras que inevitablemente me llevan a vos, y supongo que eso ya dice bastante.</p>
+    <p class="revela" style="--r:3.6s">Así que hoy las flores amarillas tenían destinataria desde antes de que yo siquiera lo pensara demasiado. Eran tuyas. Porque entre tanta gente, hay algunas personas que simplemente se sienten distintas… y vos, para mí, eres una de ellas.</p>
+    <p class="revela" style="--r:4.05s">Ojalá te gusten mucho y, sobre todo, que te saquen una de esas sonrisas tuyas tan bonitas.</p>
+  </div>
+
+  <div class="cierre">
+    <p class="deseo revela" style="--r:4.45s">Feliz día de las flores amarillas, boludita 💛</p>
+    <p class="firma revela" style="--r:4.7s">Roberto</p>
+  </div>
+
+  <p class="devuelta revela" style="--r:4.95s">
+    <button type="button" id="otra-vez">Verlas florecer de nuevo</button>
+  </p>
+
+</main>
+
+<script>
+(function(){
+  var carta = document.getElementById('carta');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if(!reduce){
+    carta.classList.add('animar');
+    document.getElementById('otra-vez').addEventListener('click', function(){
+      carta.classList.remove('animar');
+      void carta.offsetWidth;
+      carta.classList.add('animar');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  } else {
+    document.getElementById('otra-vez').parentNode.hidden = true;
+  }
+
+  // polen a la deriva
+  if(reduce) return;
+  var c = document.getElementById('polen'), x = c.getContext('2d'), motas = [], w = 0, h = 0;
+
+  function medir(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = c.clientWidth; h = c.clientHeight;
+    c.width = w * dpr; c.height = h * dpr;
+    x.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  function sembrar(){
+    motas = [];
+    var n = Math.round(Math.min(30, Math.max(14, w / 26)));
+    for(var i=0;i<n;i++){
+      motas.push({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        r: 0.7 + Math.random()*1.7,
+        vy: -(0.06 + Math.random()*0.18),
+        vx: (Math.random()-0.5)*0.12,
+        a: 0.12 + Math.random()*0.4,
+        f: Math.random()*Math.PI*2
+      });
+    }
+  }
+
+  function pintar(){
+    x.clearRect(0,0,w,h);
+    for(var i=0;i<motas.length;i++){
+      var m = motas[i];
+      m.f += 0.008;
+      m.y += m.vy;
+      m.x += m.vx + Math.sin(m.f)*0.16;
+      if(m.y < -8){ m.y = h + 8; m.x = Math.random()*w; }
+      if(m.x < -8) m.x = w + 8;
+      if(m.x > w + 8) m.x = -8;
+      x.beginPath();
+      x.arc(m.x, m.y, m.r, 0, Math.PI*2);
+      x.fillStyle = 'rgba(255,214,110,' + m.a + ')';
+      x.fill();
+    }
+    requestAnimationFrame(pintar);
+  }
+
+  medir(); sembrar(); pintar();
+  var t;
+  window.addEventListener('resize', function(){
+    clearTimeout(t);
+    t = setTimeout(function(){ medir(); sembrar(); }, 180);
+  });
+})();
+</script>
